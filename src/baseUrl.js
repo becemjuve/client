@@ -1,1 +1,1 @@
-export const baseUrl = ("http://localhost:5000/")
+export const baseUrl = ("https://game-shop-api-35ag.onrender.com/")
