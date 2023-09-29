@@ -8,6 +8,7 @@ function ProductDetails() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { product } = useSelector((state) => state.product);
+  const { cartProducts } = useSelector((state) => state.cart);
 
   useEffect(() => {
     dispatch(getOneProduct(id));
@@ -27,6 +28,11 @@ function ProductDetails() {
         </div>
         <h4>description:</h4>
         <p className="product-details-description">{product?.description}</p>
+        <h4 className="mt-4">in Cart: <span>{
+            cartProducts.map(prod=>(
+              prod._id === product._id && `${prod.count}`
+            ))
+          }</span></h4>
         <div className="text-center mt-5">
           <button
             onClick={() => dispatch(addToCart(product))}
