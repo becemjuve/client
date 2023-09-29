@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { toast } from "react-toastify";
 
 const initialState = {
     cartProducts: JSON.parse(localStorage.getItem('cart')) || [],
@@ -15,7 +16,9 @@ const carteSlice = createSlice({
             if (!targetProd) state.cartProducts.push({...action.payload, count: 1 } )
             else state.cartProducts.map(prod =>{
              if (prod._id === action.payload._id) {
-              prod.count += 1
+                if(prod.stock === targetProd.count){
+                    toast(`sorry we have only ${prod.stock} pieces left`, {type:"error"})
+                } else prod.count += 1
         }
         })
         state.total = state.cartProducts.reduce((acc,prod) => acc  +  prod.count * prod.price,0)
@@ -41,7 +44,9 @@ const carteSlice = createSlice({
         incCount : (state, action) =>{
             state.cartProducts.map(prod =>{
                 if (prod._id === action.payload._id) {
-                    prod.count += 1
+                    if(prod.stock === action.payload.count){
+                        toast(`sorry we have only ${prod.stock} pieces left`, {type:"error"})
+                    } else prod.count += 1
                 }
             })
             state.total = state.cartProducts.reduce((acc,prod) => acc  +  prod.count * prod.price,0)
